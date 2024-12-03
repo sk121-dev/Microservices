@@ -1,13 +1,13 @@
-package com.sk.User.MS;
+package com.sk.userms;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class UserMsApplication {
+public class UsermsApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(UserMsApplication.class, args);
+		SpringApplication.run(UsermsApplication.class, args);
 	}
 
 }

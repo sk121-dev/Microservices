@@ -1,10 +1,10 @@
-package com.sk.User.MS;
+package com.sk.userms;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class UserMsApplicationTests {
+class UsermsApplicationTests {
 
 	@Test
 	void contextLoads() {
