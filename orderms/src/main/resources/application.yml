@@ -1,0 +1,56 @@
+spring:
+ application:
+  name: orderms
+
+
+server:
+ port: 8082
+
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+
+
+# Actuator (visualize the circuit-breaker state-changes)
+management:
+  health:
+    circuitbreakers:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+
+# circuit-breaker logging level change
+logging:
+  level:
+    io.github.resilience4j: debug
+
+# circuit-breaker rules for changing states (close, open, half-open)
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        slidingWindowSize: 8
+        permittedNumberOfCallsInHalfOpenState: 2
+        slidingWindowType: COUNT_BASED
+        waitDurationInOpenState: 30
+        failureRateThreshold: 50
+        minimumNumberOfCalls: 4
+    instances:
+      usermsclient:
+        registerHealthIndicator: true
+        eventConsumerBufferSize: 10
+        failureRateThreshold: 50
+        minimumNumberOfCalls: 5
+        #        automaticTransferFromOpenToHalfOpenEnabled: true
+        automatic-transition-from-open-to-half-open-enabled: true
+        waitDurationInOpenState: 20s
+        permittedNumberOfCallsInHalfOpenState: 3
+        slidingWindowSize: 10
+        slidingWindowType: COUNT_BASED

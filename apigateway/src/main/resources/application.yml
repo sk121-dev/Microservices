@@ -1,0 +1,43 @@
+spring:
+ application:
+  name: apigateway
+ cloud:
+  gateway:
+   routes:
+    - id: usermsid
+      uri: lb://userms
+      predicates:
+       - Path=/userms/**
+      filters:
+       - RewritePath=/userms/(?<path>.*),/$\{path}
+    - id: ordermsid
+      uri: lb://orderms
+      predicates:
+       - Path=/orderms/**
+      filters:
+       - RewritePath=/orderms/(?<path>.*),/$\{path}
+
+
+
+server:
+ port: 8080
+
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+
+
+# Actuator (visualize the circuit-breaker state-changes)
+management:
+  health:
+    circuitbreakers:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always

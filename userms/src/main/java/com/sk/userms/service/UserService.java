@@ -1,6 +1,7 @@
 package com.sk.userms.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.sk.userms.entity.UserEntity;
+import com.sk.userms.exception.ResourceNotFoundException;
 import com.sk.userms.repository.UserRepository;
 
 
@@ -35,6 +37,25 @@ public class UserService {
             throw new RuntimeException("Unable to fetch users at the moment.",ex);
         }
 
+    }
+
+    public ResponseEntity<UserEntity> getUserById(Long id) {
+        log.info("Fetching user with ID: {}", id);
+
+        try{
+            Optional<UserEntity> user = userRepo.findById(id);
+            if(user.isPresent()){
+                return ResponseEntity.ok(user.get());
+            }
+            else{
+                throw new ResourceNotFoundException("User not found with ID: "+id);
+            }
+
+        }catch(Exception ex){
+            log.error("Error while fetching user with ID: {}",id,ex);
+
+            throw ex;
+        }
     }
     
 }
